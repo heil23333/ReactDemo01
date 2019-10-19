@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import './style.css'
 
 class Xiaojiejie extends Component {
     constructor(props) {
@@ -13,8 +14,9 @@ class Xiaojiejie extends Component {
         return (
             <Fragment>
                 <div>
-                    <input value={this.state.inputValue} onChange={this.inputChange.bind(this)} />
-                    <button onClick={this.addList.bind(this)}>增加服务</button>
+                    <label htmlFor="add">增加服务:</label>
+                    <input id="add" className="input" value={this.state.inputValue} onChange={this.inputChange.bind(this)} />
+                    <button onClick={this.addList.bind(this)}>增加</button>
                 </div>
                 <ul>
                     {
@@ -23,8 +25,8 @@ class Xiaojiejie extends Component {
                                 <li
                                     key={index + item}
                                     onClick={this.deletItem.bind(this, index)}
+                                    dangerouslySetInnerHTML={{ __html: item }}
                                 >
-                                    {item}
                                 </li>
                             )
                         })
@@ -51,7 +53,7 @@ class Xiaojiejie extends Component {
         let list = this.state.list
         list.splice(index, 1)
         this.setState({
-            list:list
+            list: list
         })
     }
 }
