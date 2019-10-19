@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import './style.css'
+import XiaojiejieItem from './Xiaojiejieitem'
 
 class Xiaojiejie extends Component {
     constructor(props) {
@@ -22,12 +23,12 @@ class Xiaojiejie extends Component {
                     {
                         this.state.list.map((item, index) => {
                             return (
-                                <li
-                                    key={index + item}
-                                    onClick={this.deletItem.bind(this, index)}
-                                    dangerouslySetInnerHTML={{ __html: item }}
-                                >
-                                </li>
+                                <XiaojiejieItem
+                                    key = {index+item}
+                                    content={item}
+                                    index = {index}
+                                    deletItem = {this.deletItem.bind(this)}
+                                />
                             )
                         })
                     }
