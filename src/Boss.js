@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { CSSTransition } from 'react-transition-group'
 
 class Boss extends Component {
     constructor(props) {
@@ -11,9 +12,16 @@ class Boss extends Component {
     render() {
         return (
             <div>
-                <div className={this.state.isShow ? 'show' : 'not-show'} > Boss级人物 - 钢铁侠 </div>
+                <CSSTransition
+                    in={this.state.isShow}
+                    timeout={2000}
+                    classNames='boss-text'
+                    unmountOnExit
+                >
+                    <div > Boss级人物 - 钢铁侠 </div>
+                </CSSTransition>
                 <div>
-                    <button onClick={this.total}> 切换 </button>
+                    <button onClick={this.total}> {this.state.isShow? '隐藏':'显示'} </button>
                 </div>
             </div>
         )
