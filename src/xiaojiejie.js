@@ -16,18 +16,28 @@ class Xiaojiejie extends Component {
             <Fragment>
                 <div>
                     <label htmlFor="add">增加服务:</label>
-                    <input id="add" className="input" value={this.state.inputValue} onChange={this.inputChange.bind(this)} />
+                    <input
+                        id="add"
+                        className="input"
+                        value={this.state.inputValue}
+                        onChange={this.inputChange.bind(this)}
+                        ref={
+                            (input) => {
+                                this.input = input
+                            }
+                        }
+                    />
                     <button onClick={this.addList.bind(this)}>增加</button>
                 </div>
-                <ul>
+                <ul ref={(ul) => { this.ul = ul }}>
                     {
                         this.state.list.map((item, index) => {
                             return (
                                 <XiaojiejieItem
-                                    key = {index+item}
+                                    key={index + item}
                                     content={item}
-                                    index = {index}
-                                    deletItem = {this.deletItem.bind(this)}
+                                    index={index}
+                                    deletItem={this.deletItem.bind(this)}
                                 />
                             )
                         })
@@ -39,7 +49,7 @@ class Xiaojiejie extends Component {
 
     inputChange(e) {
         this.setState({
-            inputValue: e.target.value
+            inputValue: this.input.value
         })
     }
 
@@ -47,6 +57,8 @@ class Xiaojiejie extends Component {
         this.setState({
             list: [...this.state.list, this.state.inputValue],
             inputValue: ''
+        }, ()=>{//setState完成后回调
+            console.log(this.ul.querySelectorAll('li').length)
         })
     }
 
