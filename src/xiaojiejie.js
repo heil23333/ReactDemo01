@@ -1,13 +1,34 @@
 import React, { Component, Fragment } from 'react'
 import './style.css'
 import XiaojiejieItem from './Xiaojiejieitem'
+import axios from 'axios'
+import Boss from './Boss'
 
 class Xiaojiejie extends Component {
+
+    componentDidMount(){
+        axios.get('https://easy-mock.com/mock/5dac055ce8df8e174237d8fb/ReactDemo01/xiaojiejie')
+            .then(
+                (res)=>{
+                    console.log('axios 获取数据成功:' + JSON.stringify(res))
+                    this.setState({
+                        list:res.data.data
+                    })
+                }
+            )
+            .catch(
+                (error)=>{
+                    console.log('axios 异常：' + error);
+                    
+                }
+            )
+    }
+
     constructor(props) {
         super(props)
         this.state = {
             inputValue: '',
-            list: ['泰式按摩', '精油推背']
+            list: []
         }
     }
 
@@ -43,6 +64,7 @@ class Xiaojiejie extends Component {
                         })
                     }
                 </ul>
+                <Boss/>
             </Fragment>
         )
     }
@@ -72,3 +94,4 @@ class Xiaojiejie extends Component {
 }
 
 export default Xiaojiejie
+
