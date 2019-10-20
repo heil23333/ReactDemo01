@@ -3,23 +3,26 @@ import './style.css'
 import XiaojiejieItem from './Xiaojiejieitem'
 import axios from 'axios'
 import Boss from './Boss'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 class Xiaojiejie extends Component {
 
-    componentDidMount(){
+    componentDidMount() {
         axios.get('https://easy-mock.com/mock/5dac055ce8df8e174237d8fb/ReactDemo01/xiaojiejie')
             .then(
-                (res)=>{
+                (res) => {
                     console.log('axios 获取数据成功:' + JSON.stringify(res))
                     this.setState({
-                        list:res.data.data
+                        list: res.data.data
                     })
                 }
             )
             .catch(
-                (error)=>{
+                (error) => {
                     console.log('axios 异常：' + error);
-                    
+                    this.setState({
+                        list: ['泰式按摩']
+                    })
                 }
             )
     }
@@ -51,20 +54,29 @@ class Xiaojiejie extends Component {
                     <button onClick={this.addList.bind(this)}>增加</button>
                 </div>
                 <ul ref={(ul) => { this.ul = ul }}>
-                    {
-                        this.state.list.map((item, index) => {
-                            return (
-                                <XiaojiejieItem
-                                    key={index + item}
-                                    content={item}
-                                    index={index}
-                                    deletItem={this.deletItem.bind(this)}
-                                />
-                            )
-                        })
-                    }
+                    <TransitionGroup>
+                        {
+                            this.state.list.map((item, index) => {
+                                return (
+                                    <CSSTransition
+                                        timeout={2000}
+                                        classNames='boss-text'
+                                        unmountOnExit
+                                        appear={true}
+                                        key={index + item}>
+                                        <XiaojiejieItem
+                                            key={index + item}
+                                            content={item}
+                                            index={index}
+                                            deletItem={this.deletItem.bind(this)}
+                                        />
+                                    </CSSTransition>
+                                )
+                            })
+                        }
+                    </TransitionGroup>
                 </ul>
-                <Boss/>
+                <Boss />
             </Fragment>
         )
     }
@@ -79,7 +91,7 @@ class Xiaojiejie extends Component {
         this.setState({
             list: [...this.state.list, this.state.inputValue],
             inputValue: ''
-        }, ()=>{//setState完成后回调
+        }, () => {//setState完成后回调
             console.log(this.ul.querySelectorAll('li').length)
         })
     }
